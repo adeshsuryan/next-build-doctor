@@ -1,0 +1,35 @@
+# Publishes next-build-doctor to npm on version tags.
+# Preferred auth: npm Trusted Publisher (OIDC) - no long-lived token.
+# Fallback: repository secret NPM_TOKEN (granular access token with publish + bypass 2FA).
+name: Publish npm
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Test
+        run: npm test
+
+      - name: Publish
+        run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

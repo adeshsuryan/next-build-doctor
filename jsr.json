@@ -1,0 +1,22 @@
+{
+  "$schema": "https://jsr.io/schema/config-file.v1.json",
+  "name": "@adeshsuryan/next-build-doctor",
+  "version": "0.1.0",
+  "license": "MIT",
+  "exports": "./mod.mjs",
+  "publish": {
+    "include": [
+      "mod.mjs",
+      "mod.d.ts",
+      "bin/**",
+      "src/**",
+      "docs/**",
+      "README.md",
+      "CHANGELOG.md",
+      "SECURITY.md",
+      "LICENSE",
+      "package.json",
+      "jsr.json"
+    ]
+  }
+}

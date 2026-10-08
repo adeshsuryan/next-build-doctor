@@ -1,0 +1,13 @@
+node_modules/
+coverage/
+.env
+.env.*
+*.zip
+*.tar
+*.tgz
+*.gz
+.DS_Store
+._*
+access.txt
+mytoughts.txt
+next-build-doctor-plan/

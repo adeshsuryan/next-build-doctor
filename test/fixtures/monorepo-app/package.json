@@ -1,0 +1,13 @@
+{
+  "name": "monorepo-app",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "pnpm -r build"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}

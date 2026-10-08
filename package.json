@@ -1,0 +1,63 @@
+{
+  "name": "next-build-doctor",
+  "version": "0.1.0",
+  "description": "Read a Next.js project and report build-memory and build-performance risks.",
+  "main": "./src/index.js",
+  "types": "./mod.d.ts",
+  "exports": {
+    ".": {
+      "types": "./mod.d.ts",
+      "import": "./mod.mjs",
+      "require": "./src/index.js",
+      "default": "./src/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "next-build-doctor": "bin/next-build-doctor.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "mod.mjs",
+    "mod.d.ts",
+    "docs",
+    "README.md",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "LICENSE",
+    "composer.json",
+    "jsr.json"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "prepublishOnly": "npm test"
+  },
+  "author": "Adesh Suryan",
+  "license": "MIT",
+  "keywords": [
+    "nextjs",
+    "build",
+    "memory",
+    "performance",
+    "oom",
+    "turbopack",
+    "webpack",
+    "static-generation"
+  ],
+  "homepage": "https://github.com/adeshsuryan/next-build-doctor#readme",
+  "bugs": {
+    "url": "https://github.com/adeshsuryan/next-build-doctor/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adeshsuryan/next-build-doctor.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

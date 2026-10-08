@@ -1,0 +1,12 @@
+{
+  "name": "heap-flag-app",
+  "private": true,
+  "scripts": {
+    "build": "NODE_OPTIONS=--max-old-space-size=2048 next build"
+  },
+  "dependencies": {
+    "next": "16.3.8",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
+  }
+}
