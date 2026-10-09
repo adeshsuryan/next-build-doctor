@@ -2,6 +2,14 @@
 
 Each entry matches one tagged commit on `main`. The tag, the `version` field in `package.json` and `jsr.json`, and this file use the same number.
 
+## 0.2.1 - 2026-10-09
+
+Tag: `v0.2.1`
+
+### Changed
+
+- Added the package banner (`docs/assets/banner.jpg`) and linked it from the README with an absolute URL so it renders on npm, JSR, and Packagist.
+
 ## 0.2.0 - 2026-10-09
 
 Tag: `v0.2.0`

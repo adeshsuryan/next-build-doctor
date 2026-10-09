@@ -1,5 +1,7 @@
 # Next build doctor
 
+![Next build doctor](https://raw.githubusercontent.com/adeshsuryan/next-build-doctor/main/docs/assets/banner.jpg)
+
 Next build doctor reads a Next.js project on disk and reports build-memory and build-performance risks before the build hits them.
 
 `next build` can run out of memory, stall in static generation, or compile the same code twice — and the framework does not say why. This package names the flag, file, or route family that is likely to cause it.
