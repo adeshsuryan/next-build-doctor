@@ -1,5 +1,7 @@
 "use strict";
 
+const os = require("os");
+
 function analyze(project) {
   const { version, bundler, routers, routes, config, heap, deps, docker, ci, monorepo } = project;
   const findings = [];
@@ -34,7 +36,7 @@ function analyze(project) {
     }
   }
 
-  const cpuCount = require("os").cpus().length;
+  const cpuCount = os.cpus().length;
   if (cpuCount >= 8 && config.cpus === null && config.workerThreads === null) {
     findings.push({
       id: "worker-count-uncapped",
@@ -112,7 +114,9 @@ function analyze(project) {
   }
 
   const dockerignoreMissing = docker.dockerfiles.length > 0 && docker.dockerignore === null;
-  const dockerignoreIncomplete = docker.dockerignoreExcludes && !["node_modules", ".next", ".git"].every((p) => docker.dockerignoreExcludes.some((e) => e === p || e === p + "/" || e === p + "/**"));
+  const dockerignoreIncomplete = docker.dockerignoreExcludes && !["node_modules", ".next", ".git"].every((p) =>
+    docker.dockerignoreExcludes.some((e) => e === p || e === p + "/" || e === p + "/**" || e === "**/" + p || e === "**/" + p + "/**" || e === "**/" + p + "/")
+  );
   if (dockerignoreMissing || dockerignoreIncomplete) {
     findings.push({
       id: "docker-context-bloat",

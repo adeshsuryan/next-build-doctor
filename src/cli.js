@@ -46,12 +46,22 @@ function main(argv) {
     const arg = args[i];
     if (arg === "--") break; // reserved passthrough for profile mode
     if (flagSet.has(arg)) continue;
+    if (arg.startsWith("-")) {
+      console.error(`Unknown flag: ${arg}`);
+      process.exitCode = 2;
+      return;
+    }
     positional.push(arg);
   }
 
   let mode = "scan";
   if (positional.length > 0 && MODES.has(positional[0])) {
     mode = positional.shift();
+  }
+  if (positional.length > 1) {
+    console.error(`Unexpected extra arguments: ${positional.slice(1).join(" ")}`);
+    process.exitCode = 2;
+    return;
   }
   const root = positional[0] || ".";
 
@@ -73,7 +83,8 @@ function main(argv) {
   else process.stdout.write(render(result));
   if (verbose && !json) {
     for (const finding of result.findings) {
-      process.stderr.write(`checked ${finding.id}: ${finding.file}:${finding.line}\n`);
+      const safe = String(finding.file).replace(/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f\x9b]/g, "?");
+      process.stderr.write(`checked ${finding.id}: ${safe}:${finding.line}\n`);
     }
   }
   if (failOn && result.findings.some((finding) => finding.risk === "high")) {

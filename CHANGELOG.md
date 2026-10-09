@@ -2,6 +2,24 @@
 
 Each entry matches one tagged commit on `main`. The tag, the `version` field in `package.json` and `jsr.json`, and this file use the same number.
 
+## 0.1.1 - 2026-10-09
+
+Tag: `v0.1.1`
+
+### Security and hardening
+
+- CLI rejects unknown flags and extra positional arguments with exit 2, instead of silently treating a mistyped flag as a directory.
+- Text report and `--verbose` output strip terminal control characters from finding fields, so a crafted file name cannot inject escape sequences into CI logs.
+- Detector prefers the project-root `package.json` and `next.config.*` over nested files, fixing wrong version/config detection on repos that carry secondary manifests.
+- Lockfiles get an 8 MB read cap (other files stay at 1 MB), so large `package-lock.json`/`pnpm-lock.yaml` files still resolve the installed Next.js version.
+- The JSON result's `project.deps.scripts` now carries only build-relevant scripts (`prebuild`, `build`, `postbuild`, `dev`, `start`) instead of every script.
+- `.dockerignore` analysis accepts `**/dir` and `dir/` patterns.
+- Publish workflows scope `id-token` to the job and set `timeout-minutes`; added a JSR publish workflow using OIDC provenance (no token secret).
+
+### Added
+
+- `mod.ts` typed entrypoint for JSR with documented exports (`run`, `render`, `Mode`, `Finding`, `RunOptions`, `RunResult`).
+
 ## 0.1.0 - 2026-10-08
 
 Tag: `v0.1.0`

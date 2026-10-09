@@ -1,5 +1,11 @@
 "use strict";
 
+// Strip control characters (except newline/tab) so crafted file paths or
+// values cannot inject terminal escape sequences into the report.
+function clean(value) {
+  return String(value).replace(/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f\x9b]/g, "?");
+}
+
 function render(result) {
   const lines = [];
   lines.push("Next build doctor");
@@ -36,11 +42,11 @@ function render(result) {
   }
   for (const finding of result.findings) {
     lines.push("");
-    lines.push(`${finding.risk.toUpperCase()}  ${finding.id}`);
-    lines.push(`${finding.file}:${finding.line}`);
-    lines.push(finding.title);
-    lines.push(finding.detail);
-    lines.push(`Fix: ${finding.fix}`);
+    lines.push(`${clean(finding.risk).toUpperCase()}  ${clean(finding.id)}`);
+    lines.push(`${clean(finding.file)}:${finding.line}`);
+    lines.push(clean(finding.title));
+    lines.push(clean(finding.detail));
+    lines.push(`Fix: ${clean(finding.fix)}`);
   }
   lines.push("");
   return lines.join("\n");

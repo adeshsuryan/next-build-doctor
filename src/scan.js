@@ -14,7 +14,15 @@ const SKIP_DIRS = new Set([
 
 const SOURCE_EXT = new Set([".js", ".jsx", ".mjs", ".cjs", ".ts", ".tsx"]);
 const MAX_FILE_BYTES = 1024 * 1024;
+const MAX_LOCKFILE_BYTES = 8 * 1024 * 1024;
 const MAX_FILES = 20000;
+
+const LOCKFILE_NAMES = new Set([
+  "package-lock.json",
+  "npm-shrinkwrap.json",
+  "pnpm-lock.yaml",
+  "yarn.lock",
+]);
 
 const EXACT_NAMES = new Set([
   "package.json",
@@ -86,7 +94,8 @@ function listFiles(root) {
       } catch {
         continue;
       }
-      if (!stat.isFile() || stat.isSymbolicLink() || stat.size > MAX_FILE_BYTES) continue;
+      const cap = LOCKFILE_NAMES.has(entry.name) ? MAX_LOCKFILE_BYTES : MAX_FILE_BYTES;
+      if (!stat.isFile() || stat.isSymbolicLink() || stat.size > cap) continue;
       out.push(full);
     }
   }

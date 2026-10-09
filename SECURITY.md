@@ -24,9 +24,10 @@ Later modes are planned:
 - Names that start with a dot are skipped, which covers `.env` and `.git`. Two exceptions: `.github/workflows/` is read for CI analysis, and `.dockerignore` is read for Docker context checks.
 - `node_modules`, `.next`, `dist`, `coverage`, and `out` are skipped.
 - Only JavaScript/TypeScript source and a fixed allowlist of config/build files (`package.json`, lockfiles, `next.config.*`, `Dockerfile*`, `docker-compose*`, workflow YAML, workspace manifests) are read.
-- A file larger than 1 MB is skipped.
+- A file larger than 1 MB is skipped (8 MB for lockfiles).
 - A file that contains a null byte is skipped.
 - The walk stops at 20,000 files.
+- Since 0.1.1: unknown CLI flags exit with code 2 instead of being treated as a path, the report strips terminal control characters from finding fields, and the JSON result exposes only build-relevant scripts.
 
 A finding is a pattern in source or config. It is not a proof that a build will run out of memory, and it is not a verdict that the project is safe.
 

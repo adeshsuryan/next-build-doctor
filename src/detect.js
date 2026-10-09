@@ -29,7 +29,10 @@ function parseJson(text) {
 }
 
 function fileOf(project, base) {
-  return project.files.find((f) => path.posix.basename(f.file) === base);
+  const matches = project.files.filter((f) => path.posix.basename(f.file) === base);
+  if (matches.length === 0) return undefined;
+  const root = matches.find((f) => !f.file.includes("/"));
+  return root || matches[0];
 }
 
 function filesOf(project, predicate) {
@@ -107,7 +110,8 @@ function detectRouters(project) {
 }
 
 function detectConfig(project) {
-  const configFile = filesOf(project, (f) => /(^|\/)next\.config\.(js|ts|mjs|cjs)$/.test(f))[0] || null;
+  const configs = filesOf(project, (f) => /(^|\/)next\.config\.(js|ts|mjs|cjs)$/.test(f));
+  const configFile = configs.find((f) => !f.file.includes("/")) || configs[0] || null;
   const flags = {
     file: configFile ? configFile.file : null,
     output: null,
@@ -185,7 +189,11 @@ function detectDeps(project) {
       }
     }
   }
-  const scripts = pkg && pkg.scripts ? pkg.scripts : {};
+  const allScripts = pkg && pkg.scripts ? pkg.scripts : {};
+  const scripts = {};
+  for (const key of ["prebuild", "build", "postbuild", "dev", "start"]) {
+    if (allScripts[key]) scripts[key] = allScripts[key];
+  }
   return {
     heavy,
     scripts,
