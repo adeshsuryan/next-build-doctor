@@ -31,11 +31,17 @@ test("--fail-on-high exits 1 on a high finding", () => {
 });
 
 test("reserved modes exit 2 with a message", () => {
-  for (const mode of ["inspect", "profile", "docker"]) {
+  for (const mode of ["profile", "docker"]) {
     const res = spawnSync(process.execPath, [bin, mode, fixture("clean-app")], { encoding: "utf8" });
     assert.equal(res.status, 2, mode);
     assert.match(res.stderr, /not available in this version/);
   }
+});
+
+test("inspect mode on a project without .next exits 0", () => {
+  const res = spawnSync(process.execPath, [bin, "inspect", fixture("clean-app")], { encoding: "utf8" });
+  assert.equal(res.status, 0);
+  assert.match(res.stdout, /No build artifacts found/);
 });
 
 test("a missing path exits 2", () => {

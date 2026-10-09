@@ -172,4 +172,63 @@ function analyze(project) {
   return { findings };
 }
 
-module.exports = { analyze };
+const GB = 1024 * 1024 * 1024;
+const MB = 1024 * 1024;
+
+function analyzeInspect(artifacts) {
+  const findings = [];
+  if (!artifacts.present) return { findings };
+
+  if (artifacts.cache.bytes > 8 * GB) {
+    findings.push({
+      id: "cache-dir-bloat",
+      risk: "high",
+      file: ".next/cache",
+      line: 1,
+      title: `.next/cache is ${(artifacts.cache.bytes / GB).toFixed(1)} GB`,
+      detail: "A very large build cache slows restore in CI and can push Docker build contexts past their memory budget.",
+      fix: "Clear .next/cache periodically, scope CI caching to .next/cache, and check whether webpack or turbopack subdirs dominate.",
+    });
+  } else if (artifacts.cache.bytes > 2 * GB) {
+    findings.push({
+      id: "cache-dir-bloat",
+      risk: "medium",
+      file: ".next/cache",
+      line: 1,
+      title: `.next/cache is ${(artifacts.cache.bytes / GB).toFixed(1)} GB`,
+      detail: "The build cache is above the warn threshold. Restores get slower as it grows.",
+      fix: "Clear .next/cache periodically, or cache only the compiler subdirectory CI actually reuses.",
+    });
+  }
+
+  const heavy = artifacts.heaviestRoutes.find((r) => r.bytes > 10 * MB);
+  if (heavy) {
+    findings.push({
+      id: "artifact-weight",
+      risk: "medium",
+      file: heavy.route,
+      line: 1,
+      title: `Route chunk set weighs ${(heavy.bytes / MB).toFixed(1)} MB`,
+      detail: "A single route's chunk set is above 10 MB. Large per-route graphs lengthen page-data collection and output tracing.",
+      fix: "Split shared client code, lazy-load heavy imports on that route, and check whether a dependency pulls in server code.",
+    });
+  }
+
+  if (artifacts.stale) {
+    findings.push({
+      id: "stale-build-artifacts",
+      risk: "low",
+      file: ".next/BUILD_ID",
+      line: 1,
+      title: "BUILD_ID is older than source files",
+      detail: "Source files changed after the last build. Size and route readings below describe stale artifacts, not the current tree.",
+      fix: "Run a fresh build before relying on inspect output.",
+    });
+  }
+
+  const order = { high: 0, medium: 1, low: 2 };
+  findings.sort((a, b) => order[a.risk] - order[b.risk] || a.id.localeCompare(b.id));
+  return { findings };
+}
+
+module.exports = { analyze, analyzeInspect };

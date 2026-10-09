@@ -12,7 +12,7 @@ function usage() {
     "",
     "Modes:",
     "  scan      Read source and config; report build-memory and build-performance risk (default).",
-    "  inspect   Read .next build artifacts (not available in this version).",
+    "  inspect   Read .next build artifacts: cache weight, route chunk weight, staleness.",
     "    profile   Run next build and sample process memory (not available in this version).",
     "  docker    Analyze Dockerfile, .dockerignore, compose, and CI (not available in this version).",
     "",
@@ -65,7 +65,7 @@ function main(argv) {
   }
   const root = positional[0] || ".";
 
-  if (mode !== "scan") {
+  if (mode !== "scan" && mode !== "inspect") {
     console.error(`Mode "${mode}" is not available in this version.`);
     process.exitCode = 2;
     return;

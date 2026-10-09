@@ -4,9 +4,9 @@ Next build doctor reads a Next.js project on disk and reports build-memory and b
 
 `next build` can run out of memory, stall in static generation, or compile the same code twice — and the framework does not say why. This package names the flag, file, or route family that is likely to cause it.
 
-It is a library and a command. Version 0.1.0 ships `scan` mode: read-only static analysis. `inspect` (`.next` artifacts) and `profile` (supervised `next build` with memory sampling) are planned modes.
+It is a library and a command. Current release: **0.2.0**. Modes: `scan` (static analysis of source/config, read-only) and `inspect` (`.next` artifact inventory: cache weight, prerendered routes, heaviest chunks). `profile` (supervised `next build` with memory sampling) is a planned mode.
 
-Current release: **0.1.0**. Each release commit on `main` is an annotated git tag, `v0.1.0`, and an entry in [CHANGELOG.md](CHANGELOG.md).
+Each release commit on `main` is an annotated git tag and an entry in [CHANGELOG.md](CHANGELOG.md).
 
 - GitHub: https://github.com/adeshsuryan/next-build-doctor
 - npm: https://www.npmjs.com/package/next-build-doctor
@@ -75,13 +75,13 @@ npx next-build-doctor [directory] [--json] [--fail-on-high] [--verbose]
 
 `directory` defaults to the current working directory. `--json` prints the same object `run()` returns. `--fail-on-high` exits 1 when any finding is high. Exit 2 means the path was refused or could not be read.
 
-Reserved subcommands (`scan` is the default):
+Subcommands (`scan` is the default):
 
 ```text
 next-build-doctor scan|inspect|profile|docker [directory]
 ```
 
-`inspect`, `profile`, and `docker` exit 2 until their versions ship.
+`inspect` reads `.next/` artifacts — no build is run. `profile` and `docker` exit 2 until their versions ship.
 
 Example:
 

@@ -2,6 +2,17 @@
 
 Each entry matches one tagged commit on `main`. The tag, the `version` field in `package.json` and `jsr.json`, and this file use the same number.
 
+## 0.2.0 - 2026-10-09
+
+Tag: `v0.2.0`
+
+### Added
+
+- `inspect` mode: reads `.next/` artifacts without running a build. Reports BUILD_ID and staleness, prerendered route/fallback counts, `.next/cache` weight split (webpack vs turbopack vs fetch), server/static size rollups, heaviest route chunk sets, and top static chunks.
+- Three inspect rules: `cache-dir-bloat` (medium >2 GB, high >8 GB), `artifact-weight` (single route chunk set >10 MB), `stale-build-artifacts` (BUILD_ID older than source files).
+- `inspect` on a project with no `.next` exits 0 with a "no build artifacts found" message.
+- Missing or partial `.next` trees are tolerated — every artifact read is optional.
+
 ## 0.1.1 - 2026-10-09
 
 Tag: `v0.1.1`

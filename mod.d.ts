@@ -23,7 +23,8 @@ export type RunResult = {
   mode: Mode;
   fileCount: number;
   schemaVersion: number;
-  project: unknown;
+  project?: unknown;
+  artifacts?: unknown;
   findings: Finding[];
 };
 

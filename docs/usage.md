@@ -44,4 +44,12 @@ FINDINGS lists risks. Each line has a risk (`high`, `medium`, `low`), an id, a f
 | `monorepo-over-transpile` | low | `transpilePackages` covers many workspace packages. |
 | `page-data-timeout-risk` | low | Large static generation with no `staticPageGenerationTimeout`. |
 
+Inspect-mode findings (from `.next/` artifacts):
+
+| Id | Risk | Meaning |
+| --- | --- | --- |
+| `cache-dir-bloat` | medium/high | `.next/cache` above 2 GB (warn) or 8 GB (high). |
+| `artifact-weight` | medium | A single route's chunk set is above 10 MB. |
+| `stale-build-artifacts` | low | `BUILD_ID` is older than source files — the inventory describes a stale build. |
+
 `--fail-on-high` sets the exit code to 1 when any high finding is present. Without that flag the exit code stays 0 so the report can be read in a shell without failing the shell.

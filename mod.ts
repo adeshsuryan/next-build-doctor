@@ -58,8 +58,10 @@ export interface RunResult {
   fileCount: number;
   /** JSON schema version for machine consumers. */
   schemaVersion: number;
-  /** Detected project model (version, bundler, routes, config, docker, ci). */
-  project: Record<string, unknown>;
+  /** Detected project model (scan mode: version, bundler, routes, config, docker, ci). */
+  project?: Record<string, unknown>;
+  /** `.next` artifact inventory (inspect mode). */
+  artifacts?: Record<string, unknown>;
   /** Findings sorted by risk (high first). */
   findings: Finding[];
 }
