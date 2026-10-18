@@ -37,5 +37,5 @@ jobs:
           npm i --no-save --no-audit --no-fund typescript @types/node
           npx tsc --noEmit --module esnext --moduleResolution bundler \
             --target es2022 --strict --skipLibCheck --types node mod.ts
-      - name: Drift test: mod.d.ts vs runtime exports
+      - name: "Drift test: mod.d.ts vs runtime exports"
         run: node --test test/types.test.js
