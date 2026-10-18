@@ -38,13 +38,20 @@ function analyze(project) {
 
   const cpuCount = os.cpus().length;
   if (cpuCount >= 8 && config.cpus === null && config.workerThreads === null) {
+    // Under webpack a worker pool compiles in parallel; under Turbopack
+    // (default since Next 16) these flags still cap the page-data and
+    // static-generation worker pool — so the finding applies either way,
+    // but the wording must match what is actually spawned.
+    const isTurbo = bundler && bundler.bundler === "turbopack";
     findings.push({
       id: "worker-count-uncapped",
       risk: "medium",
       file: config.file || "next.config.js",
       line: 1,
       title: "Next.js build workers are not capped",
-      detail: `This machine has ${cpuCount} logical CPUs and the project does not set experimental.cpus or experimental.workerThreads. Next.js can spawn a worker per core, each growing its own heap.`,
+      detail: isTurbo
+        ? `This machine has ${cpuCount} logical CPUs and the project does not set experimental.cpus or experimental.workerThreads. Under Turbopack these flags cap the page-data and static-generation worker pool — uncapped, it can still spawn a worker per core, each growing its own heap.`
+        : `This machine has ${cpuCount} logical CPUs and the project does not set experimental.cpus or experimental.workerThreads. Next.js can spawn a webpack build worker per core, each growing its own heap.`,
       fix: "Set experimental.cpus or experimental.workerThreads in next.config to a number that fits your CI memory budget.",
     });
   }

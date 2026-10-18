@@ -1,6 +1,6 @@
 {
   "name": "next-build-doctor",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Read a Next.js project and report build-memory and build-performance risks.",
   "main": "./src/index.js",
   "types": "./mod.d.ts",

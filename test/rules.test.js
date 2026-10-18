@@ -70,6 +70,32 @@ test("worker-count-uncapped fires only when cpus are uncapped", () => {
   }
 });
 
+test("worker-count-uncapped wording adapts to the detected bundler", () => {
+  if (os.cpus().length < 8) return;
+  const { analyze } = require("../src/rules");
+  const base = {
+    version: {},
+    bundler: { bundler: "webpack" },
+    routers: ["app"],
+    routes: { total: 10, generateStaticParams: [] },
+    config: { file: "next.config.js", cpus: null, workerThreads: null },
+    heap: { maxOldSpaceMb: null },
+    deps: { heavy: [], hasTypeScript: false, hasEslintConfig: false },
+    docker: { compose: [], dockerfiles: [], dockerignore: "x", dockerignoreExcludes: null },
+    ci: {},
+    monorepo: { isMonorepo: false },
+    files: [],
+    fileCount: 10,
+  };
+  const webpackRun = analyze(base).findings.find((f) => f.id === "worker-count-uncapped");
+  const turboRun = analyze({ ...base, bundler: { bundler: "turbopack" } }).findings.find(
+    (f) => f.id === "worker-count-uncapped"
+  );
+  assert.ok(webpackRun.detail.includes("webpack"));
+  assert.ok(turboRun.detail.includes("page-data"));
+  assert.equal(turboRun.detail.includes("webpack"), false);
+});
+
 test("json result carries schemaVersion", () => {
   const result = run(fixture("clean-app"));
   assert.equal(result.schemaVersion, 1);

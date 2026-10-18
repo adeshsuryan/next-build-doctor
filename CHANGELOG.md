@@ -2,6 +2,21 @@
 
 Each entry matches one tagged commit on `main`. The tag, the `version` field in `package.json` and `jsr.json`, and this file use the same number.
 
+## 0.2.2 - 2026-10-18
+
+Tag: `v0.2.2`
+
+### Fixed
+
+- `worker-count-uncapped` advice is now bundler-aware: under Turbopack
+  (the Next 16 default) the detail correctly describes the page-data and
+  static-generation worker pool instead of claiming webpack compile workers.
+
+### Added
+
+- GitHub Actions CI on push/PR — `node --test` on Node 18, 20, and 22.
+- Regression test covering the bundler-aware finding text.
+
 ## 0.2.1 - 2026-10-09
 
 Tag: `v0.2.1`
