@@ -31,6 +31,13 @@ Later modes are planned:
 
 A finding is a pattern in source or config. It is not a proof that a build will run out of memory, and it is not a verdict that the project is safe.
 
+## Supported versions
+
+| Line | Status |
+| --- | --- |
+| `0.2.x` | Supported — latest `0.2.3` |
+| `0.1.x` and earlier | No fixes |
+
 ## Dependencies
 
 Version 0.1.0 has no runtime dependencies. Review `package.json` before any later release that adds one.

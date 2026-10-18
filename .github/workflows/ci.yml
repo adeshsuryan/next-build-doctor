@@ -12,11 +12,30 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ["18", "20", "22"]
+        node: ["18", "20", "22", "24"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
+      - name: Syntax check
+        run: for f in src/*.js mod.mjs bin/*.js; do node --check "$f"; done
+      - name: Audit
+        run: npm audit --audit-level=high || true
       - name: Test
         run: npm test
+
+  types:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Type-check mod.ts (CI-only, not a devDependency)
+        run: |
+          npm i --no-save --no-audit --no-fund typescript @types/node
+          npx tsc --noEmit --module esnext --moduleResolution bundler \
+            --target es2022 --strict --skipLibCheck --types node mod.ts
+      - name: Drift test: mod.d.ts vs runtime exports
+        run: node --test test/types.test.js

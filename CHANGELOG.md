@@ -2,6 +2,27 @@
 
 Each entry matches one tagged commit on `main`. The tag, the `version` field in `package.json` and `jsr.json`, and this file use the same number.
 
+## 0.2.3 - 2026-10-18
+
+Tag: `v0.2.3`
+
+### Added
+
+- `test/types.test.js`: asserts `mod.d.ts` function exports match the
+  CommonJS runtime exports (types-drift guard).
+- CI `types` job: type-checks `mod.ts` with `npx typescript` (CI-only —
+  zero devDependencies preserved).
+- CI: Node 24 in the matrix, `node --check` on all shipped files,
+  `npm audit --audit-level=high` (trivially clean — zero deps).
+- SECURITY.md support table; README states the tested Node set.
+
+### Changed
+
+- Composer shim floor `php >=8.1` → `>=8.2` (EOL cleanup, cosmetic).
+- `NPM_TOKEN` fallback kept: the repository secret exists and is used by
+  the publish workflow; removing it needs a Trusted-Publisher check on
+  npmjs.com first.
+
 ## 0.2.2 - 2026-10-18
 
 Tag: `v0.2.2`

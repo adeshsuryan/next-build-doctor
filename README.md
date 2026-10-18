@@ -6,7 +6,7 @@ Next build doctor reads a Next.js project on disk and reports build-memory and b
 
 `next build` can run out of memory, stall in static generation, or compile the same code twice — and the framework does not say why. This package names the flag, file, or route family that is likely to cause it.
 
-It is a library and a command. Current release: **0.2.0**. Modes: `scan` (static analysis of source/config, read-only) and `inspect` (`.next` artifact inventory: cache weight, prerendered routes, heaviest chunks). `profile` (supervised `next build` with memory sampling) is a planned mode.
+It is a library and a command. Current release: **0.2.3**. Modes: `scan` (static analysis of source/config, read-only) and `inspect` (`.next` artifact inventory: cache weight, prerendered routes, heaviest chunks). `profile` (supervised `next build` with memory sampling) is a planned mode.
 
 Each release commit on `main` is an annotated git tag and an entry in [CHANGELOG.md](CHANGELOG.md).
 
@@ -17,7 +17,7 @@ Each release commit on `main` is an annotated git tag and an entry in [CHANGELOG
 
 ## Install
 
-Node.js 18 or newer.
+Node.js 18 or newer (CI runs 18/20/22/24; Node 18/20 are EOL upstream but kept compatible).
 
 ### npm / pnpm / yarn (recommended for Next.js)
 

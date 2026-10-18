@@ -1,14 +1,14 @@
 {
-  "name": "adeshsuryan/next-build-doctor",
-  "description": "Read a Next.js project and report build-memory and build-performance risks.",
-  "type": "library",
-  "license": "MIT",
-  "homepage": "https://github.com/adeshsuryan/next-build-doctor",
-  "support": {
-    "issues": "https://github.com/adeshsuryan/next-build-doctor/issues",
-    "source": "https://github.com/adeshsuryan/next-build-doctor"
-  },
-  "require": {
-    "php": ">=8.1"
-  }
+    "name": "adeshsuryan/next-build-doctor",
+    "description": "Read a Next.js project and report build-memory and build-performance risks.",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/adeshsuryan/next-build-doctor",
+    "support": {
+        "issues": "https://github.com/adeshsuryan/next-build-doctor/issues",
+        "source": "https://github.com/adeshsuryan/next-build-doctor"
+    },
+    "require": {
+        "php": ">=8.2"
+    }
 }
